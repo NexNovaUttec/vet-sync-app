@@ -175,6 +175,11 @@ export default [
   // Configuraciones específicas para archivos de prueba
   {
     files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.spec.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.jest
+      }
+    },
     rules: {
       'no-unused-expressions': 'off'
     }

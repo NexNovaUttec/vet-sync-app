@@ -40,9 +40,9 @@ describe('sortAppointments', () => {
     ]
     const sorted = sortAppointments([...appointments])
     expect(sorted[0].status).toBe('En Curso')
-expect(sorted[1].status).toBe('Programada')
-expect(sorted[2].status).toBe('Finalizada')
-expect(sorted[3].status).toBe('Cancelada')
+    expect(sorted[1].status).toBe('Programada')
+    expect(sorted[2].status).toBe('Finalizada')
+    expect(sorted[3].status).toBe('Cancelada')
   })
 })
 
