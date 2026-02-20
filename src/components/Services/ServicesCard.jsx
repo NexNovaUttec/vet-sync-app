@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Image } from '@unpic/react'
 import { useAppointments } from '@/hooks/useAppointments'
 import { useAuth } from '@/hooks/useAuth'
 import { toast } from 'sonner'
@@ -33,17 +32,16 @@ export function ServicesCard({ service }) {
     <Card key={service.id} className={`h-full flex flex-col overflow-hidden group ${service.img_url ? 'pt-0' : ''}`}>
       {service.img_url && !imageError && (
         <div className="relative w-full aspect-video overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent z-10"></div>
           {/* Skeleton/placeholder mientras carga la imagen */}
           {!imageLoaded && <Skeleton className="w-full h-full rounded-none"></Skeleton>}
-          <Image
-            loading='lazy'
+          <img
+            loading="lazy"
+            decoding="async"
             src={service.img_url}
             alt={service.nombre}
             onLoad={handleImageLoad}
             onError={handleImageError}
-            width={800}
-            aspectRatio={16 / 9}
             className={`w-full h-full object-cover object-center transition-all duration-500 ease-out group-hover:scale-102 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}

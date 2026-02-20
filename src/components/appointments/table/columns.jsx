@@ -8,7 +8,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
 import { CancelDialog } from '@/components/appointments/CancelDialog'
-import { Image } from '@unpic/react'
 
 export const createColumns = (cancelAppointment) => [
   {
@@ -21,12 +20,12 @@ export const createColumns = (cancelAppointment) => [
         <div className="flex items-center">
           {imgUrl && (
             <div className="mr-1.5 sm:mr-3 w-8 sm:w-11 rounded-full overflow-hidden">
-              <Image
-                loading='lazy'
-                width={80}
-                aspectRatio={1}
+              <img
+                loading="lazy"
+                decoding="async"
                 src={imgUrl}
                 alt={nombreMascota}
+                className="w-full h-full object-cover"
                 onError={(e) => {
                   e.target.style.display = 'none'
                 }}
