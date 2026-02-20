@@ -19,7 +19,7 @@ export const createColumns = (cancelAppointment) => [
       return (
         <div className="flex items-center">
           {imgUrl && (
-            <div className="mr-1.5 sm:mr-3 w-8 sm:w-11 rounded-full overflow-hidden">
+            <div className="mr-1.5 sm:mr-3 w-8 sm:w-11 aspect-square rounded-full overflow-hidden">
               <img
                 loading="lazy"
                 decoding="async"
