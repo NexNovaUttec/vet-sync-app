@@ -5,7 +5,6 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 import { sortServicesByCategory } from '@/lib/utils'
 import { Stethoscope, Bubbles, LoaderCircle, Zap } from 'lucide-react'
-import { Image } from '@unpic/react'
 
 export function PetServiceSelection({ control, errors, pets, services, petsLoading, servicesLoading }) {
   const sortedServices = sortServicesByCategory(services)
@@ -40,13 +39,12 @@ export function PetServiceSelection({ control, errors, pets, services, petsLoadi
                   {pets.map((pet) => (
                     <SelectItem key={pet.id} value={pet.id}>
                       <div className="flex items-center gap-3">
-                        <Image
+                        <img
                           src={pet.img_url}
                           alt={pet.nombre}
-                          width={100}
-                          aspectRatio={1}
                           loading="lazy"
-                          className="rounded-full w-9 h-9"
+                          decoding="async"
+                          className="rounded-full w-9 h-9 object-cover"
                         />
                         <span>{pet.nombre}</span>
                       </div>
