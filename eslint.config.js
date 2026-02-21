@@ -38,7 +38,7 @@ export default [
       'no-undef': 'off', // TypeScript maneja esto
 
       // Usar reglas específicas de TypeScript
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
 
       // Reglas de formato (mantenemos las mismas que para JS)
       'semi': ['error', 'never'],
@@ -104,7 +104,7 @@ export default [
       'quotes': ['error', 'single'],
       'indent': ['error', 2],
       'comma-dangle': ['error', 'never'],
-      'no-unused-vars': 'warn',
+      'no-unused-vars': 'error',
       'eqeqeq': 'error',
       'no-var': 'error',
       'prefer-const': 'error',
