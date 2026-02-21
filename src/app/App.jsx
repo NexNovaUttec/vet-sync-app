@@ -11,8 +11,6 @@ import { NewAppointment } from '../views/NewAppointment'
 import { Services } from '@/views/Services.jsx'
 import { NotFound } from '@/views/NotFound.jsx'
 
-const unUsefulVariable = 'This variable is declared but never used'
-
 function AppContent() {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
