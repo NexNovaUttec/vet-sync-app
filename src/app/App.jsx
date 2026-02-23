@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { Login } from '@/views/auth/Login.jsx'
 import { Register } from '@/views/auth/Register.jsx'
+import { PrivacyNotice } from '@/views/auth/PrivacyNotice.jsx'
 import { Header } from '@/components/header/Header.jsx'
 import { MobileMenu } from '@/components/header/MobileMenu.jsx'
 import { Home } from '@/views/Home.jsx'
@@ -19,7 +20,7 @@ function AppContent() {
     setIsMenuOpen(!isMenuOpen)
   }
 
-  const authPaths = ['/login', '/register', '*']
+  const authPaths = ['/login', '/register', '/privacy', '*']
   const isAuthPath = authPaths.includes(location.pathname)
 
   return (
@@ -30,7 +31,7 @@ function AppContent() {
           <MobileMenu isOpen={isMenuOpen} onClose={toggleMenu} />
         </>
       )}
-      <main className={`flex-grow ${isAuthPath ? 'flex items-center justify-center' : ''}`}>
+      <main className={`grow ${isAuthPath ? 'flex items-center justify-center' : ''}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mascotas" element={<Pets />} />
@@ -39,6 +40,7 @@ function AppContent() {
           <Route path="/servicios" element={<Services />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/privacy" element={<PrivacyNotice />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

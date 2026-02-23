@@ -186,6 +186,13 @@ export function RegisterForm() {
           )}
         </div>
 
+        <p className="text-xs text-muted-foreground text-center mt-2">
+          Al registrarte, aceptas nuestro{' '}
+          <Link to="/privacy" className="text-primary underline hover:no-underline">
+            Aviso de Privacidad
+          </Link>
+        </p>
+
         <div className="mt-4 flex-col gap-2 p-0">
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? <LoaderCircle className="h-4 w-4 animate-spin" /> : 'Registrarse'}

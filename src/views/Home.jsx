@@ -13,11 +13,7 @@ export function Home() {
       <ServicesSection />
       <MissionSection />
       <footer className="flex items-center justify-center pb-10 px-4">
-        <p className="text-foreground/50 text-center text-sm md:text-base">
-          © 2025 Vet Sync App - Proyecto de Portafolio
-          <br />
-          Imágenes para demostración únicamente
-        </p>
+        <p className="text-foreground/50 text-center text-sm md:text-base">© 2025 Vet Sync App</p>
       </footer>
     </div>
   )
