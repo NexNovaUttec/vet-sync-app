@@ -4,21 +4,22 @@ import { sendChatMessage } from '@/services/api/chat'
 
 const WELCOME_MESSAGE = {
   role: 'assistant',
-  content: '¡Hola! Soy el asistente virtual de VetSync 🐾 ¿En qué puedo ayudarte hoy? Puedo orientarte sobre el cuidado de tu mascota o sobre el uso de la plataforma.'
+  content:
+    '¡Hola! Soy el asistente virtual de VetSync 🐾 ¿En qué puedo ayudarte hoy? Puedo orientarte sobre el cuidado de tu mascota o sobre el uso de la plataforma.'
 }
 
-function ChatMessage ({ message }) {
+function ChatMessage({ message }) {
   const isUser = message.role === 'user'
   return (
     <div className={`flex gap-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-      <div className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center ${isUser ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+      <div
+        className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center ${isUser ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}
+      >
         {isUser ? <User size={14} /> : <Bot size={14} />}
       </div>
       <div
         className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm leading-relaxed ${
-          isUser
-            ? 'bg-primary text-primary-foreground rounded-tr-sm'
-            : 'bg-muted text-foreground rounded-tl-sm'
+          isUser ? 'bg-primary text-primary-foreground rounded-tr-sm' : 'bg-muted text-foreground rounded-tl-sm'
         }`}
       >
         {message.content}
@@ -27,7 +28,7 @@ function ChatMessage ({ message }) {
   )
 }
 
-export function ChatBot () {
+export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([WELCOME_MESSAGE])
   const [input, setInput] = useState('')
@@ -65,7 +66,7 @@ export function ChatBot () {
 
     try {
       const reply = await sendChatMessage({ message: text, history })
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }])
+      setMessages((prev) => [...prev, { role: 'assistant', content: reply }])
     } catch (error) {
       let errorMsg
 
@@ -82,7 +83,7 @@ export function ChatBot () {
         errorMsg = error.response.data?.error || 'Ocurrió un error inesperado, intenta de nuevo.'
       }
 
-      setMessages(prev => [...prev, { role: 'assistant', content: `⚠️ ${errorMsg}` }])
+      setMessages((prev) => [...prev, { role: 'assistant', content: `⚠️ ${errorMsg}` }])
     } finally {
       setIsLoading(false)
     }
@@ -124,7 +125,7 @@ export function ChatBot () {
             ))}
             {isLoading && (
               <div className="flex gap-2 flex-row">
-                <div className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-muted text-muted-foreground">
+                <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-muted text-muted-foreground">
                   <Bot size={14} />
                 </div>
                 <div className="bg-muted text-foreground rounded-2xl rounded-tl-sm px-3 py-2 flex items-center gap-1">
@@ -152,7 +153,7 @@ export function ChatBot () {
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
-              className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+              className="p-2 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
               aria-label="Enviar mensaje"
             >
               <Send size={15} />
@@ -163,7 +164,7 @@ export function ChatBot () {
 
       {/* Botón flotante */}
       <button
-        onClick={() => setIsOpen(prev => !prev)}
+        onClick={() => setIsOpen((prev) => !prev)}
         className="fixed bottom-4 right-4 z-50 w-13 h-13 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 hover:scale-105 transition-all duration-200 flex items-center justify-center"
         aria-label={isOpen ? 'Cerrar chat' : 'Abrir chat'}
       >
