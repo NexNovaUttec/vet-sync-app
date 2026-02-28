@@ -67,7 +67,21 @@ export function ChatBot () {
       const reply = await sendChatMessage({ message: text, history })
       setMessages(prev => [...prev, { role: 'assistant', content: reply }])
     } catch (error) {
-      const errorMsg = error?.response?.data?.error || 'Ocurrió un error, intenta de nuevo.'
+      let errorMsg
+
+      if (!error.response) {
+        // Error de red: no se pudo conectar al servidor
+        errorMsg = 'No se pudo conectar con el servidor. Verifica que el backend esté activo.'
+      } else if (error.response.status === 429) {
+        errorMsg = 'Demasiadas solicitudes, espera un momento e intenta de nuevo.'
+      } else if (error.response.status === 400) {
+        errorMsg = error.response.data?.error || 'Mensaje inválido.'
+      } else if (error.response.status === 503) {
+        errorMsg = 'El servicio de chat no está disponible en este momento.'
+      } else {
+        errorMsg = error.response.data?.error || 'Ocurrió un error inesperado, intenta de nuevo.'
+      }
+
       setMessages(prev => [...prev, { role: 'assistant', content: `⚠️ ${errorMsg}` }])
     } finally {
       setIsLoading(false)
