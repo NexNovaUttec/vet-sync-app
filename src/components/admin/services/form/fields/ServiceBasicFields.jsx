@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
-export function ServiceBasicFields({ control, errors, initialValues = {} }) {
+export function ServiceBasicFields({ control, errors, isEditMode, initialValues = {} }) {
   return (
     <div className="space-y-4">
       <div className="grid gap-2">
@@ -63,22 +63,50 @@ export function ServiceBasicFields({ control, errors, initialValues = {} }) {
         </div>
       </div>
 
-      <div className="grid gap-2">
-        <Label htmlFor="duracion_estimada">Duración estimada (minutos)</Label>
-        <Controller
-          name="duracion_estimada"
-          control={control}
-          render={({ field }) => (
-            <Input
-              id="duracion_estimada"
-              type="number"
-              placeholder="Ej: 30"
-              className={errors?.duracion_estimada ? 'border-red-500' : ''}
-              {...field}
+      <div className={isEditMode ? 'grid grid-cols-2 gap-4 w-full' : 'grid gap-2'}>
+        <div className="grid gap-2 w-full">
+          <Label htmlFor="duracion_estimada">Duración estimada (minutos)</Label>
+          <Controller
+            name="duracion_estimada"
+            control={control}
+            render={({ field }) => (
+              <Input
+                id="duracion_estimada"
+                type="number"
+                placeholder="Ej: 30"
+                className={`w-full ${errors?.duracion_estimada ? 'border-red-500' : ''}`}
+                {...field}
+              />
+            )}
+          />
+          {errors?.duracion_estimada && <p className="text-sm text-red-500">{errors.duracion_estimada.message}</p>}
+        </div>
+
+        {isEditMode && (
+          <div className="grid gap-2 w-full">
+            <Label htmlFor="activo">Estado del Servicio</Label>
+            <Controller
+              name="activo"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  onValueChange={(val) => field.onChange(val)}
+                  value={field.value !== undefined ? String(field.value) : undefined}
+                  defaultValue={initialValues.activo !== undefined ? String(initialValues.activo) : undefined}
+                >
+                  <SelectTrigger className={`w-full ${errors?.activo ? 'border-red-500' : ''}`}>
+                    <SelectValue placeholder="Seleccionar estado" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="true">Activo</SelectItem>
+                    <SelectItem value="false">Inactivo</SelectItem>
+                  </SelectContent>
+                </Select>
+              )}
             />
-          )}
-        />
-        {errors?.duracion_estimada && <p className="text-sm text-red-500">{errors.duracion_estimada.message}</p>}
+            {errors?.activo && <p className="text-sm text-red-500">{errors.activo.message}</p>}
+          </div>
+        )}
       </div>
 
       <div className="grid gap-2">

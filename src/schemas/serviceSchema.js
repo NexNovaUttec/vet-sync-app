@@ -43,5 +43,11 @@ export const serviceSchema = z.object({
       .positive('La duración estimada debe ser un número positivo')
   ),
 
+  activo: z.preprocess((val) => {
+    if (val === 'true' || val === true) return true
+    if (val === 'false' || val === false) return false
+    return val
+  }, z.boolean()).optional(),
+
   image: z.any().optional()
 })

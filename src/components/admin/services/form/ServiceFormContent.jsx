@@ -22,7 +22,8 @@ export function ServiceFormContent() {
       categoria_id: selectedService?.categoria_id ? String(selectedService.categoria_id) : '',
       precio: selectedService?.precio ? String(selectedService.precio) : '',
       duracion_estimada: selectedService?.duracion_estimada ? String(selectedService.duracion_estimada) : '',
-      descripcion: selectedService?.descripcion || ''
+      descripcion: selectedService?.descripcion || '',
+      activo: selectedService?.activo !== undefined ? String(selectedService.activo) : 'true'
     }
   }, [selectedService])
 
@@ -107,8 +108,10 @@ export function ServiceFormContent() {
         <ServiceBasicFields
           control={control}
           errors={errors}
+          isEditMode={isEditMode}
           initialValues={{
-            categoria_id: selectedService?.categoria_id
+            categoria_id: selectedService?.categoria_id,
+            activo: selectedService?.activo
           }}
         />
       </div>
