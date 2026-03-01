@@ -12,6 +12,7 @@ import { NewAppointment } from '../views/NewAppointment'
 import { Services } from '@/views/Services.jsx'
 import { NotFound } from '@/views/NotFound.jsx'
 import { AdminDashboard } from '@/views/AdminDashboard.jsx'
+import { AdminLayout } from '@/views/AdminLayout.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -23,10 +24,12 @@ function AppContent() {
 
   const authPaths = ['/login', '/register', '/privacy', '*']
   const isAuthPath = authPaths.includes(location.pathname)
+  const isAdminPath = location.pathname.startsWith('/admin')
+  const hideHeader = isAuthPath || isAdminPath
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {!isAuthPath && (
+      {!hideHeader && (
         <>
           <Header toggleMenu={toggleMenu} />
           <MobileMenu isOpen={isMenuOpen} onClose={toggleMenu} />
@@ -39,7 +42,13 @@ function AppContent() {
           <Route path="/citas" element={<Appointments />} />
           <Route path="/agendar" element={<NewAppointment />} />
           <Route path="/servicios" element={<Services />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+
+          {/* Rutas de Administración */}
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            {/* Aquí puedes agregar más rutas como /admin/users, /admin/appointments, etc. */}
+          </Route>
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/privacy" element={<PrivacyNotice />} />
