@@ -15,6 +15,7 @@ import { AdminDashboard } from '@/views/AdminDashboard.jsx'
 import { AdminOverview } from '@/views/admin/AdminOverview.jsx'
 import { AdminServices } from '@/views/admin/AdminServices.jsx'
 import { UserRoute } from '@/components/auth/UserRoute.jsx'
+import { ChatBot } from '@/components/ChatBot'
 
 function AppContent() {
   const location = useLocation()
@@ -28,6 +29,9 @@ function AppContent() {
   const isAuthPath = authPaths.includes(location.pathname)
   const isAdminPath = location.pathname.startsWith('/admin')
   const hideHeader = isAuthPath || isAdminPath
+
+  const validPublicPaths = ['/', '/mascotas', '/citas', '/agendar', '/servicios', '/login', '/register', '/privacy']
+  const showChatBot = validPublicPaths.includes(location.pathname)
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -61,6 +65,8 @@ function AppContent() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+
+      {showChatBot && <ChatBot />}
     </div>
   )
 }

@@ -3,7 +3,6 @@ import { Toaster } from '@/components/ui/sonner'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
-import { ChatBot } from '@/components/ChatBot'
 
 export function AppWrapper({ children }) {
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -12,7 +11,6 @@ export function AppWrapper({ children }) {
     <AuthProvider>
       <Toaster position={isMobile ? 'top-center' : 'bottom-right'} richColors={true} />
       {children}
-      <ChatBot />
       <SpeedInsights debug={false} />
       <Analytics debug={false} />
     </AuthProvider>
