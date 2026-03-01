@@ -1,11 +1,14 @@
 // src/components/dashboard/Sidebar.jsx
 import { NavLink, Link } from 'react-router-dom'
-import { LayoutDashboard, Users, CalendarDays, Activity, Settings, ShieldAlert } from 'lucide-react'
+import { useState } from 'react'
+import { LayoutDashboard, Users, CalendarDays, Activity, Settings, ShieldAlert, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { ModeToggle } from '@/components/header/mode-toggle'
 import { useAuth } from '@/hooks/useAuth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { LogoutDialog } from '@/components/header/LogoutDialog'
+import { Separator } from '@/components/ui/separator'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
@@ -17,7 +20,7 @@ const navigation = [
 ]
 
 export function SidebarContent({ onNavigate }) {
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
 
   const userInitials =
     user?.nombre && user?.apellido
@@ -58,23 +61,38 @@ export function SidebarContent({ onNavigate }) {
             </li>
           ))}
         </ul>
+
+        <div className="px-4 py-2">
+          <Separator className="my-2 bg-border/50" />
+          <LogoutDialog onConfirm={logout}>
+            <button
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+            >
+              <LogOut className="w-5 h-5" />
+              Cerrar sesión
+            </button>
+          </LogoutDialog>
+        </div>
       </nav>
 
-      <div className="p-4 border-t mt-auto shrink-0 flex items-center justify-between">
-        <div className="flex items-center gap-3 overflow-hidden">
-          <Avatar className="h-9 w-9">
+      <div className="p-4 border-t mt-auto shrink-0 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-3 overflow-hidden flex-1">
+          <Avatar className="h-9 w-9 shrink-0">
             <AvatarImage src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${user?.email}`} />
             <AvatarFallback>{userInitials}</AvatarFallback>
           </Avatar>
-          <div className="flex flex-col truncate">
+          <div className="flex flex-col truncate leading-tight">
             <span className="font-medium text-sm truncate">
               {user?.nombre} {user?.apellido}
             </span>
             <span className="text-xs text-muted-foreground truncate">{user?.email}</span>
           </div>
         </div>
-        <div className="shrink-0 ml-2">
-          <ModeToggle />
+
+        <div className="flex items-center gap-1 shrink-0">
+          <div className="p-1 scale-90"> {/* Contenedor ajustado para alinearlo visualmente */}
+            <ModeToggle />
+          </div>
         </div>
       </div>
     </>
