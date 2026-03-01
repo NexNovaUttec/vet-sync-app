@@ -1,6 +1,5 @@
 // src/components/dashboard/Sidebar.jsx
 import { NavLink, Link } from 'react-router-dom'
-import { useState } from 'react'
 import { LayoutDashboard, Users, CalendarDays, Activity, Settings, ShieldAlert, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
