@@ -3,27 +3,16 @@ import { useState, useEffect } from 'react'
 import { Plus, Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter
-} from '@/components/ui/dialog'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { useServices } from '@/hooks/useServices'
 import { AdminServiceCard } from '@/components/admin/services/AdminServiceCard'
 import { ServicesSkeleton } from '@/components/loaders/ServicesSkeleton'
 import { Separator } from '@/components/ui/separator'
 import { filterServicesByCategory } from '@/lib/utils'
+import { ServicesForm } from '@/components/admin/services/form/ServicesForm'
 
 export function AdminServices() {
-  const { allServices, fetchAllServices, loading } = useServices()
+  const { allServices, fetchAllServices, loading, openAddForm } = useServices()
   const [searchTerm, setSearchTerm] = useState('')
-  const [isAddMenuOpen, setIsAddMenuOpen] = useState(false)
 
   useEffect(() => {
     fetchAllServices()
@@ -50,65 +39,13 @@ export function AdminServices() {
           <p className="text-muted-foreground">Gestiona el catálogo de servicios ofrecidos en la clínica.</p>
         </div>
 
-        <Dialog open={isAddMenuOpen} onOpenChange={setIsAddMenuOpen}>
-          <DialogTrigger asChild>
-            <Button className="w-full sm:w-auto">
-              <Plus className="w-4 h-4 mr-2" />
-              Nuevo Servicio
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-125">
-            <DialogHeader>
-              <DialogTitle>Agregar Servicio</DialogTitle>
-              <DialogDescription>Ingresa los detalles del nuevo servicio de la clínica.</DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Nombre
-                </Label>
-                <Input id="name" placeholder="Ej. Consulta de Especialidad" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="category" className="text-right">
-                  Categoría
-                </Label>
-                <Input id="category" placeholder="Ej. Cardíaco" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="price" className="text-right">
-                  Precio ($)
-                </Label>
-                <Input id="price" type="number" placeholder="500" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="duration" className="text-right">
-                  Duración (min)
-                </Label>
-                <Input id="duration" type="number" placeholder="45" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="description" className="text-right mt-2">
-                  Descripción
-                </Label>
-                <Textarea
-                  id="description"
-                  placeholder="Pequeña descripción para el cliente..."
-                  className="col-span-3"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsAddMenuOpen(false)}>
-                Cancelar
-              </Button>
-              <Button type="submit" onClick={() => setIsAddMenuOpen(false)}>
-                Guardar Servicio
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Button className="w-full sm:w-auto" onClick={() => openAddForm()}>
+          <Plus className="w-4 h-4 mr-2" />
+          Nuevo Servicio
+        </Button>
       </div>
+
+      <ServicesForm />
 
       {/* Barra de búsqueda */}
       <div className="relative w-full">
