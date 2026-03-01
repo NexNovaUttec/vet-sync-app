@@ -98,19 +98,18 @@ export function ServiceFormContent() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid gap-6">
+        <ServiceImageField
+          error={errors.image}
+          onImageChange={handleImageChange}
+          onImageError={handleImageError}
+          initialImage={selectedService?.img_url}
+        />
         <ServiceBasicFields
           control={control}
           errors={errors}
           initialValues={{
             categoria_id: selectedService?.categoria_id
           }}
-        />
-
-        <ServiceImageField
-          error={errors.image}
-          onImageChange={handleImageChange}
-          onImageError={handleImageError}
-          initialImage={selectedService?.img_url}
         />
       </div>
 
