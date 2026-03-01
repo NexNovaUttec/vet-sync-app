@@ -16,7 +16,7 @@ const navigation = [
   { name: 'Configuración', href: '/admin/settings', icon: Settings }
 ]
 
-export function Sidebar() {
+export function SidebarContent({ onNavigate }) {
   const { user } = useAuth()
 
   const userInitials =
@@ -25,9 +25,9 @@ export function Sidebar() {
       : 'U'
 
   return (
-    <aside className="w-64 h-full bg-card border-r hidden md:flex flex-col flex-none">
+    <>
       <div className="h-16 border-b flex items-center px-6 shrink-0">
-        <Link to="/admin" className="flex items-center gap-3">
+        <Link to="/admin" className="flex items-center gap-3" onClick={onNavigate}>
           <img src={VetsyncLogo} className="w-8" alt="Vetsync Logo" />
           <h2 className="text-xl font-bold tracking-tight text-foreground">
             Vet Sync <span className="text-sm font-normal text-muted-foreground ml-1">Admin</span>
@@ -41,7 +41,8 @@ export function Sidebar() {
             <li key={item.name}>
               <NavLink
                 to={item.href}
-                end={item.href === '/admin'} /* Important for exact match on dashboard root */
+                end={item.href === '/admin'}
+                onClick={onNavigate}
                 className={({ isActive }) =>
                   cn(
                     'flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors',
@@ -76,6 +77,14 @@ export function Sidebar() {
           <ModeToggle />
         </div>
       </div>
+    </>
+  )
+}
+
+export function Sidebar() {
+  return (
+    <aside className="w-64 h-full bg-card border-r hidden md:flex flex-col flex-none">
+      <SidebarContent />
     </aside>
   )
 }

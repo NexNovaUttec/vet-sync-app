@@ -45,7 +45,7 @@ export function AdminDashboard() {
         <div className="col-span-1 md:col-span-2 lg:col-span-4">
           <OverviewChartSkeleton />
         </div>
-        
+
         {/* Recent activity taking up 3 columns */}
         <div className="col-span-1 md:col-span-2 lg:col-span-3">
           <RecentActivity />
@@ -54,4 +54,3 @@ export function AdminDashboard() {
     </div>
   )
 }
-
