@@ -1,5 +1,6 @@
 // src/components/dashboard/Sidebar.jsx
 import { NavLink, Link } from 'react-router-dom'
+
 import { LayoutDashboard, Users, CalendarDays, Activity, Settings, ShieldAlert, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
@@ -31,9 +32,7 @@ export function SidebarContent({ onNavigate }) {
       <div className="h-16 border-b flex items-center px-6 shrink-0">
         <Link to="/admin" className="flex items-center gap-3" onClick={onNavigate}>
           <img src={VetsyncLogo} className="w-8" alt="Vetsync Logo" />
-          <h2 className="text-xl font-bold tracking-tight text-foreground">
-            Vet Sync <span className="text-sm font-normal text-muted-foreground ml-1">Admin</span>
-          </h2>
+          <h2 className="text-xl font-bold tracking-tight text-foreground">Admin</h2>
         </Link>
       </div>
 
@@ -64,9 +63,7 @@ export function SidebarContent({ onNavigate }) {
         <div className="px-4 py-2">
           <Separator className="my-2 bg-border/50" />
           <LogoutDialog onConfirm={logout}>
-            <button
-              className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-            >
+            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors text-muted-foreground hover:bg-destructive/10 hover:text-destructive">
               <LogOut className="w-5 h-5" />
               Cerrar sesión
             </button>
@@ -89,7 +86,9 @@ export function SidebarContent({ onNavigate }) {
         </div>
 
         <div className="flex items-center gap-1 shrink-0">
-          <div className="p-1 scale-90"> {/* Contenedor ajustado para alinearlo visualmente */}
+          <div className="p-1 scale-90">
+            {' '}
+            {/* Contenedor ajustado para alinearlo visualmente */}
             <ModeToggle />
           </div>
         </div>

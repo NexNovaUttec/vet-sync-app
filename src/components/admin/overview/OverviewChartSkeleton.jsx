@@ -11,9 +11,9 @@ export function OverviewChartSkeleton() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px] w-full mt-4 flex items-end gap-2 px-6 pb-6 pt-4 border-b border-l border-muted relative">
+        <div className="h-75 w-full mt-4 flex items-end gap-2 px-6 pb-6 pt-4 border-b border-l border-muted relative">
           {/* Y axis mock */}
-          <div className="absolute left-[-24px] top-0 bottom-6 w-4 flex flex-col justify-between text-xs text-muted-foreground mr-4">
+          <div className="absolute -left-6 top-0 bottom-6 w-4 flex flex-col justify-between text-xs text-muted-foreground mr-4">
             <span>100</span>
             <span>50</span>
             <span>0</span>

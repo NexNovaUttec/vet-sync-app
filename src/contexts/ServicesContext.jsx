@@ -1,10 +1,11 @@
 import { createContext, useCallback, useState } from 'react'
-import { getServices as getServicesApi } from '@/services/api/services'
+import { getServices as getServicesApi, getAllServices as getAllServicesApi } from '@/services/api/services'
 
 const ServicesContext = createContext()
 
 export function ServicesProvider({ children }) {
   const [services, setServices] = useState([])
+  const [allServices, setAllServices] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [initialized, setInitialized] = useState(false)
@@ -25,6 +26,21 @@ export function ServicesProvider({ children }) {
     }
   }, [])
 
+  const fetchAllServices = useCallback(async () => {
+    try {
+      setLoading(true)
+      const { data } = await getAllServicesApi()
+      setAllServices(data)
+      return data
+    } catch (error) {
+      console.error('Error fetching all services:', error)
+      setError(error)
+      throw error
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
   const initializeServices = useCallback(() => {
     if (!initialized && !loading) {
       fetchServices()
@@ -33,10 +49,12 @@ export function ServicesProvider({ children }) {
 
   const value = {
     services,
+    allServices,
     loading,
     error,
     initialized,
     fetchServices,
+    fetchAllServices,
     initializeServices
   }
 
