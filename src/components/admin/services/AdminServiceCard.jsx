@@ -4,10 +4,16 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Edit, Trash2, ImageOff } from 'lucide-react'
+import { useServices } from '@/hooks/useServices'
+import { ServiceDeleteDialog } from './ServiceDeleteDialog'
 
 export function AdminServiceCard({ service }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
+  const { openEditForm, deleteService } = useServices()
+
+  const handleEdit = () => openEditForm(service.id)
+  const handleDelete = () => deleteService(service.id)
 
   const handleImageLoad = () => setImageLoaded(true)
   const handleImageError = () => setImageError(true)
@@ -65,17 +71,19 @@ export function AdminServiceCard({ service }) {
           </section>
 
           <div className="flex gap-2">
-            <Button variant="default" className="flex-1 hover:cursor-pointer">
+            <Button variant="default" className="flex-1 hover:cursor-pointer" onClick={handleEdit}>
               <Edit className="h-4 w-4 mr-2" />
               Editar
             </Button>
-            <Button
-              variant="outline"
-              className="flex-1 text-destructive! border-destructive/30! hover:bg-destructive/10! hover:text-destructive! hover:cursor-pointer"
-            >
-              <Trash2 className="h-4 w-4 mr-2" />
-              Eliminar
-            </Button>
+            <ServiceDeleteDialog onConfirm={handleDelete}>
+              <Button
+                variant="outline"
+                className="flex-1 text-destructive! border-destructive/30! hover:bg-destructive/10! hover:text-destructive! hover:cursor-pointer"
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                Eliminar
+              </Button>
+            </ServiceDeleteDialog>
           </div>
         </CardContent>
       </div>
