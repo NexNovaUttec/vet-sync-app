@@ -11,6 +11,7 @@ import { Appointments } from '@/views/Appointments.jsx'
 import { NewAppointment } from '../views/NewAppointment'
 import { Services } from '@/views/Services.jsx'
 import { NotFound } from '@/views/NotFound.jsx'
+import { AdminDashboard } from '@/views/AdminDashboard.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -38,6 +39,7 @@ function AppContent() {
           <Route path="/citas" element={<Appointments />} />
           <Route path="/agendar" element={<NewAppointment />} />
           <Route path="/servicios" element={<Services />} />
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/privacy" element={<PrivacyNotice />} />
