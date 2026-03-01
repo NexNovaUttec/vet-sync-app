@@ -14,6 +14,7 @@ import { NotFound } from '@/views/NotFound.jsx'
 import { AdminDashboard } from '@/views/AdminDashboard.jsx'
 import { AdminOverview } from '@/views/admin/AdminOverview.jsx'
 import { AdminServices } from '@/views/admin/AdminServices.jsx'
+import { UserRoute } from '@/components/auth/UserRoute.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -38,11 +39,14 @@ function AppContent() {
       )}
       <main className={`grow ${isAuthPath ? 'flex items-center justify-center' : ''}`}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/mascotas" element={<Pets />} />
-          <Route path="/citas" element={<Appointments />} />
-          <Route path="/agendar" element={<NewAppointment />} />
-          <Route path="/servicios" element={<Services />} />
+          {/* Rutas Públicas / Usuarios */}
+          <Route element={<UserRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/mascotas" element={<Pets />} />
+            <Route path="/citas" element={<Appointments />} />
+            <Route path="/agendar" element={<NewAppointment />} />
+            <Route path="/servicios" element={<Services />} />
+          </Route>
 
           {/* Rutas de Administración */}
           <Route element={<AdminDashboard />}>
