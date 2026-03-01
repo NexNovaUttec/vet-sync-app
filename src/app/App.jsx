@@ -13,6 +13,7 @@ import { Services } from '@/views/Services.jsx'
 import { NotFound } from '@/views/NotFound.jsx'
 import { AdminDashboard } from '@/views/AdminDashboard.jsx'
 import { AdminLayout } from '@/views/AdminLayout.jsx'
+import { AdminServices } from '@/views/admin/AdminServices.jsx'
 
 function AppContent() {
   const location = useLocation()
@@ -46,6 +47,7 @@ function AppContent() {
           {/* Rutas de Administración */}
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/services" element={<AdminServices />} />
             {/* Aquí puedes agregar más rutas como /admin/users, /admin/appointments, etc. */}
           </Route>
 
