@@ -1,56 +1,62 @@
-import { StatCard } from '@/components/dashboard/StatCard'
-import { OverviewChartSkeleton } from '@/components/dashboard/OverviewChartSkeleton'
-import { RecentActivity } from '@/components/dashboard/RecentActivity'
-import { Users, CalendarDays, Activity, DollarSign } from 'lucide-react'
+// src/views/AdminDashboard.jsx
+import { Outlet, Navigate } from 'react-router-dom'
+import { Sidebar, SidebarContent } from '@/components/admin/Sidebar'
+import { useAuth } from '@/hooks/useAuth'
+import { LoadingSpinner } from '@/components/loaders/LoadingSpinner'
+import { useState } from 'react'
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { PanelRightOpen, PanelRightClose } from 'lucide-react'
+
+import { Separator } from '@/components/ui/separator'
 
 export function AdminDashboard() {
+  const { user, isAuthenticated, loading } = useAuth()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  if (loading) {
+    return <LoadingSpinner />
+  }
+
+  if (!isAuthenticated || user?.role !== 'admin') {
+    return <Navigate to="/" replace />
+  }
+
   return (
-    <div className="space-y-8">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">Dashboard General</h2>
-        <p className="text-muted-foreground">
-          Bienvenido al panel de control, aquí tienes un resumen del sistema.
-        </p>
-      </div>
+    <div className="flex h-dvh w-full bg-background overflow-hidden relative">
+      {/* Desktop Sidebar */}
+      <Sidebar />
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          title="Total Usuarios"
-          value="1,245"
-          icon={Users}
-          trend={12.5}
-        />
-        <StatCard
-          title="Citas Mensuales"
-          value="850"
-          icon={CalendarDays}
-          trend={5.4}
-        />
-        <StatCard
-          title="Servicios Activos"
-          value="15"
-          icon={Activity}
-          trend={0}
-        />
-        <StatCard
-          title="Ingresos Estimados"
-          value="$45,231"
-          icon={DollarSign}
-          trend={-2.4}
-        />
-      </div>
+      {/* Main Content Area */}
+      <main className="flex-1 flex flex-col h-full overflow-y-auto [&::-webkit-scrollbar]:thin [-ms-overflow-style:none] [scrollbar-width:thin]">
+        <div className="container max-w-7xl mx-auto px-4 py-2 sm:px-4 lg:p-8">
+          {/* Mobile inline control (scrolls away with page) */}
+          <div className="md:hidden mb-6 mt-1 flex flex-col gap-2">
+            <div className="flex items-center gap-3">
+              <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <button
+                    className="p-2 -ml-2 rounded-md hover:bg-accent text-foreground transition-colors"
+                    aria-label="Toggle Menu"
+                  >
+                    {isMobileMenuOpen ? (
+                      <PanelRightClose className="w-6 h-6" />
+                    ) : (
+                      <PanelRightOpen className="w-6 h-6" />
+                    )}
+                  </button>
+                </SheetTrigger>
+                <SheetContent side="left" className="p-0 w-64 flex flex-col bg-card border-r">
+                  <SheetTitle className="sr-only">Menú de Navegación</SheetTitle>
+                  <SidebarContent onNavigate={() => setIsMobileMenuOpen(false)} />
+                </SheetContent>
+              </Sheet>
+            </div>
+            <Separator />
+          </div>
 
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7 h-auto">
-        {/* Placeholder chart taking up 4 columns */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-4">
-          <OverviewChartSkeleton />
+          <Outlet />
         </div>
-
-        {/* Recent activity taking up 3 columns */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-3">
-          <RecentActivity />
-        </div>
-      </div>
+      </main>
     </div>
   )
 }

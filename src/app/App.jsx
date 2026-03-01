@@ -12,7 +12,7 @@ import { NewAppointment } from '../views/NewAppointment'
 import { Services } from '@/views/Services.jsx'
 import { NotFound } from '@/views/NotFound.jsx'
 import { AdminDashboard } from '@/views/AdminDashboard.jsx'
-import { AdminLayout } from '@/views/AdminLayout.jsx'
+import { AdminOverview } from '@/views/admin/AdminOverview.jsx'
 import { AdminServices } from '@/views/admin/AdminServices.jsx'
 
 function AppContent() {
@@ -45,8 +45,8 @@ function AppContent() {
           <Route path="/servicios" element={<Services />} />
 
           {/* Rutas de Administración */}
-          <Route element={<AdminLayout />}>
-            <Route path="/admin" element={<AdminDashboard />} />
+          <Route element={<AdminDashboard />}>
+            <Route path="/admin" element={<AdminOverview />} />
             <Route path="/admin/services" element={<AdminServices />} />
             {/* Aquí puedes agregar más rutas como /admin/users, /admin/appointments, etc. */}
           </Route>
