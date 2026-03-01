@@ -14,6 +14,8 @@ import { NotFound } from '@/views/NotFound.jsx'
 import { AdminDashboard } from '@/views/AdminDashboard.jsx'
 import { AdminOverview } from '@/views/admin/AdminOverview.jsx'
 import { AdminServices } from '@/views/admin/AdminServices.jsx'
+import { UserRoute } from '@/components/auth/UserRoute.jsx'
+import { ChatBot } from '@/components/ChatBot'
 
 function AppContent() {
   const location = useLocation()
@@ -28,6 +30,9 @@ function AppContent() {
   const isAdminPath = location.pathname.startsWith('/admin')
   const hideHeader = isAuthPath || isAdminPath
 
+  const validPublicPaths = ['/', '/mascotas', '/citas', '/agendar', '/servicios', '/login', '/register', '/privacy']
+  const showChatBot = validPublicPaths.includes(location.pathname)
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {!hideHeader && (
@@ -38,11 +43,14 @@ function AppContent() {
       )}
       <main className={`grow ${isAuthPath ? 'flex items-center justify-center' : ''}`}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/mascotas" element={<Pets />} />
-          <Route path="/citas" element={<Appointments />} />
-          <Route path="/agendar" element={<NewAppointment />} />
-          <Route path="/servicios" element={<Services />} />
+          {/* Rutas Públicas / Usuarios */}
+          <Route element={<UserRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/mascotas" element={<Pets />} />
+            <Route path="/citas" element={<Appointments />} />
+            <Route path="/agendar" element={<NewAppointment />} />
+            <Route path="/servicios" element={<Services />} />
+          </Route>
 
           {/* Rutas de Administración */}
           <Route element={<AdminDashboard />}>
@@ -57,6 +65,8 @@ function AppContent() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+
+      {showChatBot && <ChatBot />}
     </div>
   )
 }
