@@ -45,7 +45,7 @@ export function AdminAppointments() {
 
     return (
       <div className="mt-8">
-        <AdminDataTable columns={columns} data={sortedAppointments} />
+        <AdminDataTable columns={columns} data={sortedAppointments} onAction={handleAction} />
       </div>
     )
   }

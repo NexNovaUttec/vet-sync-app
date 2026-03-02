@@ -1,23 +1,55 @@
-import { useState } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  getExpandedRowModel,
   useReactTable
 } from '@tanstack/react-table'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search, Filter } from 'lucide-react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  Search,
+  Filter,
+  Clock,
+  Stethoscope,
+  User,
+  NotepadText,
+  CheckCircle,
+  CalendarX
+} from 'lucide-react'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
-export function AdminDataTable({ columns, data }) {
+export function AdminDataTable({ columns, data, onAction }) {
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState([])
   const [statusFilter, setStatusFilter] = useState('todos')
+  const [columnVisibility, setColumnVisibility] = useState({})
+  const [expanded, setExpanded] = useState({})
+  const isMobile = useMediaQuery('(max-width: 768px)')
+
+  useEffect(() => {
+    if (isMobile) {
+      setColumnVisibility({
+        hora_inicio: false,
+        nombre_servicio: false,
+        nombre_profesional: false,
+        nombre_cliente: false,
+        acciones: false
+      })
+    } else {
+      setColumnVisibility({})
+    }
+  }, [isMobile])
 
   const table = useReactTable({
     data,
@@ -28,9 +60,15 @@ export function AdminDataTable({ columns, data }) {
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onExpandedChange: setExpanded,
+    getExpandedRowModel: getExpandedRowModel(),
+    getRowCanExpand: () => true,
     state: {
       sorting,
-      columnFilters
+      columnFilters,
+      columnVisibility,
+      expanded
     }
   })
 
@@ -110,11 +148,130 @@ export function AdminDataTable({ columns, data }) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'} className="hover:bg-muted/50">
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                  ))}
-                </TableRow>
+                <Fragment key={row.id}>
+                  <TableRow
+                    data-state={row.getIsSelected() && 'selected'}
+                    className={isMobile ? 'cursor-pointer hover:bg-muted/50' : 'hover:bg-muted/50'}
+                    onClick={() => isMobile && row.toggleExpanded()}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id} className={cell.column.id === 'acciones' ? 'w-12' : ''}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  {row.getIsExpanded() && isMobile && (
+                    <TableRow>
+                      <TableCell colSpan={columns.length} className="p-0 border-b">
+                        <div className="bg-muted/30 p-4">
+                          <div className="space-y-4">
+                            {/* Cliente */}
+                            <div className="flex items-center gap-3 p-3 rounded-md bg-card border border-border/30 shadow-sm">
+                              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center">
+                                <User className="w-5 h-5 text-orange-500" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                                  Cliente
+                                </p>
+                                <p className="font-semibold text-foreground">{row.original.nombre_cliente}</p>
+                              </div>
+                            </div>
+
+                            {/* Hora */}
+                            <div className="flex items-center gap-3 p-3 rounded-md bg-card border border-border/30 shadow-sm">
+                              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center">
+                                <Clock className="w-5 h-5 text-blue-500" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                                  Hora programada
+                                </p>
+                                <p className="font-semibold text-foreground">
+                                  {(() => {
+                                    const hora_inicio = row.original.hora_inicio
+                                    const [hours, minutes] = hora_inicio.split(':').map(Number)
+                                    const date = new Date()
+                                    date.setHours(hours, minutes, 0, 0)
+                                    return date.toLocaleTimeString('es-ES', {
+                                      hour: '2-digit',
+                                      minute: '2-digit',
+                                      hour12: true
+                                    })
+                                  })()}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Servicio */}
+                            <div className="flex items-center gap-3 p-3 rounded-md bg-card border border-border/30 shadow-sm">
+                              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
+                                <Stethoscope className="w-5 h-5 text-green-500" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                                  Servicio
+                                </p>
+                                <p className="font-semibold text-foreground">{row.original.nombre_servicio}</p>
+                              </div>
+                            </div>
+
+                            {/* Profesional */}
+                            <div className="flex items-center gap-3 p-3 rounded-md bg-card border border-border/30 shadow-sm">
+                              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center">
+                                <User className="w-5 h-5 text-purple-500" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                                  Profesional asignado
+                                </p>
+                                <p className="font-semibold text-foreground">{row.original.nombre_profesional}</p>
+                              </div>
+                            </div>
+
+                            {/* Notas (Opcional visualmente) */}
+                            {row.original.motivo_consulta && row.original.motivo_consulta.trim() !== '' && (
+                              <div className="flex items-center gap-3 p-3 rounded-md bg-card border border-border/30 shadow-sm">
+                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-yellow-500/10 flex items-center justify-center">
+                                  <NotepadText className="w-5 h-5 text-yellow-500" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                                      Notas / Motivo
+                                  </p>
+                                  <p className="font-semibold text-foreground">{row.original.motivo_consulta}</p>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Acciones para celular */}
+                            {row.original.status === 'Programada' && (
+                              <div className="pt-4 flex flex-col gap-3 border-t border-border/50">
+                                <Button
+                                  variant="outline"
+                                  className="w-full bg-green-500/10 text-green-600 dark:text-green-500 hover:bg-green-500/20 hover:text-green-700 dark:hover:text-green-400 border-green-200 dark:border-green-900 shadow-sm"
+                                  onClick={() => onAction && onAction('complete', row.original)}
+                                >
+                                  <CheckCircle className="h-4 w-4" />
+                                  Marcar Completada
+                                </Button>
+
+                                <Button
+                                  variant="outline"
+                                  className="w-full bg-red-500/10 text-red-600 dark:text-red-500 hover:bg-red-500/20 hover:text-red-700 dark:hover:text-red-400 border-red-200 dark:border-red-900 shadow-sm"
+                                  onClick={() => onAction && onAction('cancel', row.original)}
+                                >
+                                  <CalendarX className="h-4 w-4" />
+                                  Cancelar Cita
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </Fragment>
               ))
             ) : (
               <TableRow>
@@ -179,6 +336,12 @@ export function AdminDataTable({ columns, data }) {
           </Button>
         </div>
       </div>
+
+      {isMobile && (
+        <span className="text-xs text-muted-foreground/70 text-center block mt-2 px-4 shadow-sm">
+          <strong className="font-semibold">Sugerencia: </strong>Puedes ver más detalles de la cita y acceder a las opciones haciendo clic en la fila de la cita.
+        </span>
+      )}
     </div>
   )
 }

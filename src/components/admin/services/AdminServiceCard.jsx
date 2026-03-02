@@ -72,7 +72,7 @@ export function AdminServiceCard({ service }) {
 
           <div className="flex gap-2">
             <Button variant="default" className="flex-1 hover:cursor-pointer" onClick={handleEdit}>
-              <Edit className="h-4 w-4 mr-2" />
+              <Edit className="h-4 w-4" />
               Editar
             </Button>
             <ServiceDeleteDialog onConfirm={handleDelete}>
@@ -80,7 +80,7 @@ export function AdminServiceCard({ service }) {
                 variant="outline"
                 className="flex-1 text-destructive! border-destructive/30! hover:bg-destructive/10! hover:text-destructive! hover:cursor-pointer"
               >
-                <Trash2 className="h-4 w-4 mr-2" />
+                <Trash2 className="h-4 w-4" />
                 Eliminar
               </Button>
             </ServiceDeleteDialog>
