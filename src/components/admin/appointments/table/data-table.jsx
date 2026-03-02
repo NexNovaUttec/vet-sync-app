@@ -32,6 +32,7 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 export function AdminDataTable({ columns, data, onAction }) {
   const [sorting, setSorting] = useState([])
   const [columnFilters, setColumnFilters] = useState([])
+  const [globalFilter, setGlobalFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState('todos')
   const [columnVisibility, setColumnVisibility] = useState({})
   const [expanded, setExpanded] = useState({})
@@ -62,13 +63,15 @@ export function AdminDataTable({ columns, data, onAction }) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onExpandedChange: setExpanded,
+    onGlobalFilterChange: setGlobalFilter,
     getExpandedRowModel: getExpandedRowModel(),
     getRowCanExpand: () => true,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      expanded
+      expanded,
+      globalFilter
     }
   })
 
@@ -86,25 +89,14 @@ export function AdminDataTable({ columns, data, onAction }) {
       {/* Filters Region */}
       <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-card p-4 rounded-xl border shadow-sm">
         <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-          {/* Filto de Paciente (Mascota) */}
-          <div className="relative w-full sm:w-64">
+          {/* Filto Búsqueda General */}
+          <div className="relative w-full sm:w-[350px]">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Buscar paciente..."
+              placeholder="Buscar por servicio, paciente, cliente..."
               className="pl-9 bg-background"
-              value={table.getColumn('nombre_mascota')?.getFilterValue() ?? ''}
-              onChange={(event) => table.getColumn('nombre_mascota')?.setFilterValue(event.target.value)}
-            />
-          </div>
-
-          {/* Filtro de Cliente */}
-          <div className="relative w-full sm:w-64">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Buscar cliente..."
-              className="pl-9 bg-background"
-              value={table.getColumn('nombre_cliente')?.getFilterValue() ?? ''}
-              onChange={(event) => table.getColumn('nombre_cliente')?.setFilterValue(event.target.value)}
+              value={globalFilter ?? ''}
+              onChange={(event) => setGlobalFilter(event.target.value)}
             />
           </div>
         </div>
