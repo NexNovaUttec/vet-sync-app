@@ -25,6 +25,19 @@ export const createAppointment = async (data) => {
   }
 }
 
+export const getAllAppointments = async () => {
+  try {
+    const config = {
+      requiresAuth: true
+    }
+    const { data } = await api.get('/appointments/detailed', config)
+    return data
+  } catch (error) {
+    console.error('Error getting appointments:', error)
+    throw error
+  }
+}
+
 export const getAppointments = async () => {
   try {
     const clienteId = getCurrentClientId()
