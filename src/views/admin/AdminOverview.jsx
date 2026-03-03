@@ -54,7 +54,7 @@ export function AdminOverview() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
+      <div className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
         <StatCard
           title="Total Usuarios"
           value={data.cards.totalUsers}
@@ -77,6 +77,7 @@ export function AdminOverview() {
         />
         <StatCard
           title="Ingresos Mes"
+          className="col-span-2 md:col-span-1"
           value={`$${Number(data.cards.monthlyRevenue).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
           icon={DollarSign}
         />
