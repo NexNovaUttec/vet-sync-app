@@ -65,7 +65,7 @@ export function CategoryDistribution({ data = [] }) {
               dataKey="value"
               nameKey="name"
               innerRadius={60}
-              strokeWidth={5}
+              stroke="none"
             />
           </PieChart>
         </ChartContainer>
