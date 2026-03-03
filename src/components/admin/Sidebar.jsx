@@ -1,7 +1,7 @@
 // src/components/dashboard/Sidebar.jsx
 import { NavLink, Link } from 'react-router-dom'
 
-import { LayoutDashboard, Users, CalendarDays, Activity, Settings, ShieldAlert, LogOut } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, Activity, Settings, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import VetsyncLogo from '@/assets/vetsync_logo.webp'
 import { ModeToggle } from '@/components/header/mode-toggle'
@@ -12,10 +12,8 @@ import { Separator } from '@/components/ui/separator'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { name: 'Usuarios', href: '/admin/users', icon: Users },
   { name: 'Citas', href: '/admin/appointments', icon: CalendarDays },
   { name: 'Servicios', href: '/admin/services', icon: Activity },
-  { name: 'Reportes', href: '/admin/reports', icon: ShieldAlert },
   { name: 'Configuración', href: '/admin/settings', icon: Settings }
 ]
 
