@@ -5,7 +5,9 @@ import {
   getAppointments as getAppointmentsApi,
   createAppointment as addAppointmentApi,
   cancelAppointment as cancelAppointmentApi,
-  getBlockedSlots as getBlockedSlotsApi
+  completeAppointment as completeAppointmentApi,
+  getBlockedSlots as getBlockedSlotsApi,
+  getAllAppointments as getAllAppointmentsApi
 } from '@/services/api/appointments'
 
 const AppointmentsContext = createContext()
@@ -13,8 +15,10 @@ const AppointmentsContext = createContext()
 export function AppointmentsProvider({ children }) {
   const { isAuthenticated } = useAuth()
   const [appointments, setAppointments] = useState([])
+  const [allAppointments, setAllAppointments] = useState([])
   const [noAppointments, setNoAppointments] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [loadingAll, setLoadingAll] = useState(false)
   const [loadingSlots, setLoadingSlots] = useState(false)
   const [error, setError] = useState(null)
   const [initialized, setInitialized] = useState(false)
@@ -27,6 +31,7 @@ export function AppointmentsProvider({ children }) {
   useEffect(() => {
     if (!isAuthenticated) {
       setAppointments([])
+      setAllAppointments([])
       setNoAppointments(false)
       setLoadingSlots(false)
       setError(null)
@@ -49,6 +54,21 @@ export function AppointmentsProvider({ children }) {
       throw error
     } finally {
       setLoading(false)
+    }
+  }, [])
+
+  const fetchAllAppointments = useCallback(async () => {
+    try {
+      setLoadingAll(true)
+      const { data } = await getAllAppointmentsApi()
+      setAllAppointments(data)
+      return data
+    } catch (error) {
+      console.error('Error fetching all appointments:', error)
+      setError(error)
+      throw error
+    } finally {
+      setLoadingAll(false)
     }
   }, [])
 
@@ -93,6 +113,23 @@ export function AppointmentsProvider({ children }) {
       throw error
     } finally {
       await fetchAppointments()
+      await fetchAllAppointments()
+    }
+  }
+
+  const completeAppointment = async (id) => {
+    try {
+      const { data } = await completeAppointmentApi(id)
+      toast.success('Cita marcada como completada')
+      return data
+    } catch (error) {
+      console.error('Error completing appointment:', error)
+      setError(error)
+      toast.error('Error al completar la cita')
+      throw error
+    } finally {
+      await fetchAppointments()
+      await fetchAllAppointments()
     }
   }
 
@@ -126,14 +163,18 @@ export function AppointmentsProvider({ children }) {
 
   const value = {
     appointments,
+    allAppointments,
     noAppointments,
     loading,
+    loadingAll,
     loadingSlots,
     error,
     initialized,
     addAppointment,
     fetchAppointments,
+    fetchAllAppointments,
     cancelAppointment,
+    completeAppointment,
     initializeAppointments,
     getBlockedSlots,
     formState,

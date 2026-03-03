@@ -40,7 +40,7 @@ export function AdminServices() {
         </div>
 
         <Button className="w-full sm:w-auto" onClick={() => openAddForm()}>
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-4 h-4" />
           Nuevo Servicio
         </Button>
       </div>
