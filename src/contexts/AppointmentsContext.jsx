@@ -5,6 +5,7 @@ import {
   getAppointments as getAppointmentsApi,
   createAppointment as addAppointmentApi,
   cancelAppointment as cancelAppointmentApi,
+  completeAppointment as completeAppointmentApi,
   getBlockedSlots as getBlockedSlotsApi,
   getAllAppointments as getAllAppointmentsApi
 } from '@/services/api/appointments'
@@ -112,6 +113,23 @@ export function AppointmentsProvider({ children }) {
       throw error
     } finally {
       await fetchAppointments()
+      await fetchAllAppointments()
+    }
+  }
+
+  const completeAppointment = async (id) => {
+    try {
+      const { data } = await completeAppointmentApi(id)
+      toast.success('Cita marcada como completada')
+      return data
+    } catch (error) {
+      console.error('Error completing appointment:', error)
+      setError(error)
+      toast.error('Error al completar la cita')
+      throw error
+    } finally {
+      await fetchAppointments()
+      await fetchAllAppointments()
     }
   }
 
@@ -156,6 +174,7 @@ export function AppointmentsProvider({ children }) {
     fetchAppointments,
     fetchAllAppointments,
     cancelAppointment,
+    completeAppointment,
     initializeAppointments,
     getBlockedSlots,
     formState,

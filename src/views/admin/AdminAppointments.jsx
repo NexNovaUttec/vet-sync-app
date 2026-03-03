@@ -8,7 +8,14 @@ import { sortAppointments } from '@/lib/utils'
 import { AppointmentDetailsDialog } from '@/components/admin/appointments/AppointmentDetailsDialog'
 
 export function AdminAppointments() {
-  const { allAppointments, fetchAllAppointments, loadingAll, error } = useAppointments()
+  const {
+    allAppointments,
+    fetchAllAppointments,
+    loadingAll,
+    error,
+    cancelAppointment,
+    completeAppointment
+  } = useAppointments()
   const [selectedAppointment, setSelectedAppointment] = useState(null)
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
 
@@ -16,10 +23,14 @@ export function AdminAppointments() {
     fetchAllAppointments()
   }, [fetchAllAppointments])
 
-  const handleAction = (action, appointment) => {
+  const handleAction = async (action, appointment) => {
     if (action === 'view') {
       setSelectedAppointment(appointment)
       setIsDetailsOpen(true)
+    } else if (action === 'complete') {
+      await completeAppointment(appointment.id)
+    } else if (action === 'cancel') {
+      await cancelAppointment(appointment.id)
     }
   }
 

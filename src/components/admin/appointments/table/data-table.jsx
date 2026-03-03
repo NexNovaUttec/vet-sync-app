@@ -28,6 +28,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { CancelDialog } from '@/components/appointments/CancelDialog'
+import { CompleteDialog } from '@/components/admin/appointments/CompleteDialog'
 
 export function AdminDataTable({ columns, data, onAction }) {
   const [sorting, setSorting] = useState([])
@@ -239,23 +241,25 @@ export function AdminDataTable({ columns, data, onAction }) {
                             {/* Acciones para celular */}
                             {row.original.status === 'Programada' && (
                               <div className="pt-4 flex flex-col gap-3 border-t border-border/50">
-                                <Button
-                                  variant="outline"
-                                  className="w-full bg-green-500/10 text-green-600 dark:text-green-500 hover:bg-green-500/20 hover:text-green-700 dark:hover:text-green-400 border-green-200 dark:border-green-900 shadow-sm"
-                                  onClick={() => onAction && onAction('complete', row.original)}
-                                >
-                                  <CheckCircle className="h-4 w-4" />
-                                  Marcar Completada
-                                </Button>
+                                <CompleteDialog onConfirm={() => onAction && onAction('complete', row.original)}>
+                                  <Button
+                                    variant="outline"
+                                    className="w-full bg-green-500/10 text-green-600 dark:text-green-500 hover:bg-green-500/20 hover:text-green-700 dark:hover:text-green-400 border-green-200 dark:border-green-900 shadow-sm"
+                                  >
+                                    <CheckCircle className="h-4 w-4 mr-2" />
+                                    Marcar Completada
+                                  </Button>
+                                </CompleteDialog>
 
-                                <Button
-                                  variant="outline"
-                                  className="w-full bg-red-500/10 text-red-600 dark:text-red-500 hover:bg-red-500/20 hover:text-red-700 dark:hover:text-red-400 border-red-200 dark:border-red-900 shadow-sm"
-                                  onClick={() => onAction && onAction('cancel', row.original)}
-                                >
-                                  <CalendarX className="h-4 w-4" />
-                                  Cancelar Cita
-                                </Button>
+                                <CancelDialog onConfirm={() => onAction && onAction('cancel', row.original)}>
+                                  <Button
+                                    variant="outline"
+                                    className="w-full bg-red-500/10 text-red-600 dark:text-red-500 hover:bg-red-500/20 hover:text-red-700 dark:hover:text-red-400 border-red-200 dark:border-red-900 shadow-sm"
+                                  >
+                                    <CalendarX className="h-4 w-4 mr-2" />
+                                    Cancelar Cita
+                                  </Button>
+                                </CancelDialog>
                               </div>
                             )}
                           </div>

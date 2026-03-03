@@ -9,6 +9,8 @@ import {
   DropdownMenuLabel
 } from '@/components/ui/dropdown-menu'
 import { Badge } from '@/components/ui/badge'
+import { CancelDialog } from '@/components/appointments/CancelDialog'
+import { CompleteDialog } from '@/components/admin/appointments/CompleteDialog'
 
 export const createColumns = (onAction) => [
   {
@@ -169,23 +171,27 @@ export const createColumns = (onAction) => [
 
             {appointment.status === 'Programada' && (
               <>
-                <DropdownMenuItem
-                  className="flex items-center cursor-pointer text-green-600 dark:text-green-400"
-                  onClick={() => onAction && onAction('complete', appointment)}
-                >
-                  <CheckCircle className="h-4 w-4 mr-2" />
-                  Marcar Completada
-                </DropdownMenuItem>
+                <CompleteDialog onConfirm={() => onAction && onAction('complete', appointment)}>
+                  <DropdownMenuItem
+                    className="flex items-center cursor-pointer text-green-600 dark:text-green-400"
+                    onSelect={(e) => e.preventDefault()}
+                  >
+                    <CheckCircle className="h-4 w-4 mr-2" />
+                    Marcar Completada
+                  </DropdownMenuItem>
+                </CompleteDialog>
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem
-                  className="flex items-center text-red-600 dark:text-red-400 cursor-pointer"
-                  onClick={() => onAction && onAction('cancel', appointment)}
-                >
-                  <CalendarX className="h-4 w-4 mr-2" />
-                  Cancelar Cita
-                </DropdownMenuItem>
+                <CancelDialog onConfirm={() => onAction && onAction('cancel', appointment)}>
+                  <DropdownMenuItem
+                    className="flex items-center text-red-600 dark:text-red-400 cursor-pointer"
+                    onSelect={(e) => e.preventDefault()}
+                  >
+                    <CalendarX className="h-4 w-4 mr-2" />
+                    Cancelar Cita
+                  </DropdownMenuItem>
+                </CancelDialog>
               </>
             )}
 

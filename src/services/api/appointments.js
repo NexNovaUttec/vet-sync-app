@@ -53,22 +53,24 @@ export const getAppointments = async () => {
   }
 }
 
-export const cancelAppointment = async (id) => {
+export const updateAppointmentStatus = async (id, status) => {
   try {
     const config = {
       requiresAuth: true
     }
 
-    const body = {
-      status: 'Cancelada'
-    }
+    const body = { status }
     const { data } = await api.patch(`/appointments/${id}`, body, config)
     return data
   } catch (error) {
-    console.error('Error cancelling appointment:', error)
+    console.error(`Error updating appointment to ${status}:`, error)
     throw error
   }
 }
+
+export const cancelAppointment = async (id) => updateAppointmentStatus(id, 'Cancelada')
+
+export const completeAppointment = async (id) => updateAppointmentStatus(id, 'Completada')
 
 export const getBlockedSlots = async (service_id, date) => {
   try {
