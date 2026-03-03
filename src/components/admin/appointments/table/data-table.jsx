@@ -89,7 +89,7 @@ export function AdminDataTable({ columns, data, onAction }) {
   return (
     <div className="space-y-4">
       {/* Filters Region */}
-      <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-card p-4 rounded-xl border shadow-sm">
+      <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
         <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
           {/* Filto Búsqueda General */}
           <div className="relative w-full sm:w-[350px]">
