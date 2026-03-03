@@ -35,7 +35,7 @@ export function Header({ toggleMenu }) {
         visible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-350 mx-auto">
         {/* Desktop Layout */}
         <section className="hidden lg:flex items-center relative">
           <div className="flex-1">
@@ -74,7 +74,7 @@ export function Header({ toggleMenu }) {
                 onClick={toggleMenu}
                 aria-label="Toggle menu"
               >
-                <Menu className="!w-5.5 !h-5.5" />
+                <Menu className="w-5.5! h-5.5!" />
               </Button>
             </div>
           </div>

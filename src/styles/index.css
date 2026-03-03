@@ -5,7 +5,7 @@
 
 @layer base {
   html {
-    scrollbar-width: none;
+    scrollbar-width: thin;
   }
 
   :root {

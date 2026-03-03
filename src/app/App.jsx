@@ -11,6 +11,12 @@ import { Appointments } from '@/views/Appointments.jsx'
 import { NewAppointment } from '../views/NewAppointment'
 import { Services } from '@/views/Services.jsx'
 import { NotFound } from '@/views/NotFound.jsx'
+import { AdminDashboard } from '@/views/AdminDashboard.jsx'
+import { AdminOverview } from '@/views/admin/AdminOverview.jsx'
+import { AdminServices } from '@/views/admin/AdminServices.jsx'
+import { AdminAppointments } from '@/views/admin/AdminAppointments.jsx'
+import { UserRoute } from '@/components/auth/UserRoute.jsx'
+import { ChatBot } from '@/components/ChatBot'
 
 function AppContent() {
   const location = useLocation()
@@ -22,10 +28,15 @@ function AppContent() {
 
   const authPaths = ['/login', '/register', '/privacy', '*']
   const isAuthPath = authPaths.includes(location.pathname)
+  const isAdminPath = location.pathname.startsWith('/admin')
+  const hideHeader = isAuthPath || isAdminPath
+
+  const validPublicPaths = ['/', '/mascotas', '/citas', '/agendar', '/servicios', '/login', '/register', '/privacy']
+  const showChatBot = validPublicPaths.includes(location.pathname)
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {!isAuthPath && (
+      {!hideHeader && (
         <>
           <Header toggleMenu={toggleMenu} />
           <MobileMenu isOpen={isMenuOpen} onClose={toggleMenu} />
@@ -33,17 +44,31 @@ function AppContent() {
       )}
       <main className={`grow ${isAuthPath ? 'flex items-center justify-center' : ''}`}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/mascotas" element={<Pets />} />
-          <Route path="/citas" element={<Appointments />} />
-          <Route path="/agendar" element={<NewAppointment />} />
-          <Route path="/servicios" element={<Services />} />
+          {/* Rutas Públicas / Usuarios */}
+          <Route element={<UserRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/mascotas" element={<Pets />} />
+            <Route path="/citas" element={<Appointments />} />
+            <Route path="/agendar" element={<NewAppointment />} />
+            <Route path="/servicios" element={<Services />} />
+          </Route>
+
+          {/* Rutas de Administración */}
+          <Route element={<AdminDashboard />}>
+            <Route path="/admin" element={<AdminOverview />} />
+            <Route path="/admin/services" element={<AdminServices />} />
+            <Route path="/admin/appointments" element={<AdminAppointments />} />
+            {/* Aquí puedes agregar más rutas como /admin/users, etc. */}
+          </Route>
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/privacy" element={<PrivacyNotice />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+
+      {showChatBot && <ChatBot />}
     </div>
   )
 }
