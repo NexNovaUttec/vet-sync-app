@@ -51,7 +51,7 @@ export function CancellationRate({ cancellationRate }) {
               dataKey="value"
               nameKey="status"
               innerRadius={60}
-              strokeWidth={5}
+              stroke="none"
             >
               <Label
                 content={({ viewBox }) => {
