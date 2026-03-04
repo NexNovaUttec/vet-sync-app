@@ -1,20 +1,17 @@
-// src/components/dashboard/StatCard.jsx
 import { Card, CardContent } from '@/components/ui/card'
 
 export function StatCard({ title, value, icon: Icon, className }) {
   return (
     <Card className={className}>
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <p className="text-sm font-medium text-muted-foreground">{title}</p>
-            <div className="flex items-baseline gap-2">
-              <h2 className="text-3xl font-bold tracking-tight">{value}</h2>
-            </div>
+      <CardContent className="p-6 flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm font-medium text-muted-foreground leading-none">{title}</p>
+          <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+            <Icon className="h-4 w-4 text-primary" />
           </div>
-          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-            <Icon className="h-6 w-6 text-primary" />
-          </div>
+        </div>
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight break-words">{value}</h2>
         </div>
       </CardContent>
     </Card>

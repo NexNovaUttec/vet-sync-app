@@ -97,36 +97,36 @@ export function AdminOverview() {
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7 h-auto">
         {/* Top Servicios (Ranking de rentabilidad) */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-4">
+        <div className="col-span-1 md:col-span-2 lg:col-span-4 h-full">
           <TopServices services={data.topServices} />
         </div>
 
         {/* Distribución de Categorías (Relacionado a servicios) */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-3">
+        <div className="col-span-1 md:col-span-2 lg:col-span-3 h-full">
           <CategoryDistribution data={data.chartData} />
         </div>
       </div>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7 h-auto">
         {/* Próximas Citas (Operación diaria) */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-4">
+        <div className="col-span-1 md:col-span-2 lg:col-span-4 h-full">
           <UpcomingAppointments appointments={data.recentAppointments} />
         </div>
 
         {/* Distribución de Especies (Demografía) */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-3">
+        <div className="col-span-1 md:col-span-2 lg:col-span-3 h-full">
           <SpeciesDistribution data={data.speciesDistribution} />
         </div>
       </div>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-7 h-auto pb-8">
         {/* Mascotas Recientes (Nuevos registros) */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-4">
+        <div className="col-span-1 md:col-span-2 lg:col-span-4 h-full">
           <RecentPets pets={data.recentPets} />
         </div>
 
         {/* Clientes Recientes (Leads) */}
-        <div className="col-span-1 md:col-span-2 lg:col-span-3">
+        <div className="col-span-1 md:col-span-2 lg:col-span-3 h-full">
           <RecentUsers users={data.recentUsers} />
         </div>
       </div>

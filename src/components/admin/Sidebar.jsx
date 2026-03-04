@@ -72,7 +72,7 @@ export function SidebarContent({ onNavigate }) {
       <div className="p-4 border-t mt-auto shrink-0 flex items-center justify-between gap-2">
         <div className="flex items-center gap-3 overflow-hidden flex-1">
           <Avatar className="h-9 w-9 shrink-0">
-            <AvatarImage src={`https://api.dicebear.com/9.x/thumbs/svg?seed=${user?.email}`} />
+            <AvatarImage src={`https://api.dicebear.com/9.x/shapes/svg?seed=${user?.email}`} />
             <AvatarFallback>{userInitials}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col truncate leading-tight">
