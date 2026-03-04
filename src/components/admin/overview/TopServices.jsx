@@ -11,7 +11,7 @@ export function TopServices({ services = [] }) {
   }
 
   return (
-    <Card className="border shadow-sm">
+    <Card className="h-full border shadow-sm flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Trophy className="h-5 w-5 text-amber-500" />

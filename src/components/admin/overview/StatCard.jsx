@@ -1,4 +1,3 @@
-// src/components/dashboard/StatCard.jsx
 import { Card, CardContent } from '@/components/ui/card'
 
 export function StatCard({ title, value, icon: Icon, className }) {

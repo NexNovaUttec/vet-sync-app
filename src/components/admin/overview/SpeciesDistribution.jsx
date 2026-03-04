@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Pie, PieChart } from 'recharts'
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart'
 
 export function SpeciesDistribution({ data = [] }) {
   const totalPets = data.reduce((acc, curr) => acc + curr.value, 0)
@@ -52,7 +52,7 @@ export function SpeciesDistribution({ data = [] }) {
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px] pb-0"
+          className="mx-auto w-full min-h-[300px] flex-1 pb-4"
         >
           <PieChart>
             <ChartTooltip
@@ -65,6 +65,10 @@ export function SpeciesDistribution({ data = [] }) {
               nameKey="name"
               innerRadius={60}
               stroke="none"
+            />
+            <ChartLegend
+              content={<ChartLegendContent nameKey="name" />}
+              className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
             />
           </PieChart>
         </ChartContainer>
