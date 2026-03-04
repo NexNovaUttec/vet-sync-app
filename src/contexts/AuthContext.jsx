@@ -97,7 +97,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = (data) => {
     const { accessToken, refreshToken } = data
-    console.log('3.a. Ejecutando login en AuthContext. data recibida:', data)
 
     // Obtener userData del payload del access token
     const base64Url = accessToken.split('.')[1]
@@ -110,7 +109,6 @@ export const AuthProvider = ({ children }) => {
         .join('')
     )
     const payload = JSON.parse(jsonPayload)
-    console.log('3.b. Payload JWT decodificado:', payload)
 
     const userData = {
       id: payload.id,
@@ -119,7 +117,6 @@ export const AuthProvider = ({ children }) => {
       apellido: payload.apellido,
       role: payload.role || 'user'
     }
-    console.log('3.c. userData construido:', userData)
 
     const expires = new Date(new Date().getTime() + 60 * 60 * 1000)
 

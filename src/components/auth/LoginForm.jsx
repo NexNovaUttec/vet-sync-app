@@ -30,14 +30,10 @@ export function LoginForm() {
     try {
       clearErrors('root.serverError')
 
-      console.log('1. Iniciando petición de login con:', data.email)
       const responseData = await loginRequest({ input: data })
-      console.log('2. Respuesta de la API (responseData):', responseData)
 
       const userData = login(responseData)
-      console.log('4. userData retornado por login():', userData)
 
-      console.log('5. Evaluando redirección:', userData?.role === 'admin' ? 'Redirigiendo a /admin' : 'Redirigiendo a /')
       navigate(userData?.role === 'admin' ? '/admin' : '/')
     } catch (err) {
       console.error('Login error:', err)
