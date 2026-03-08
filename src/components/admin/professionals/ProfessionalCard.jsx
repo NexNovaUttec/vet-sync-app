@@ -102,7 +102,7 @@ export function ProfessionalCard({ professional }) {
               <Stethoscope className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
               <div className="flex flex-wrap gap-1">
                 {categories.map((c, i) => (
-                  <Badge key={i} variant="outline" className="text-[10px] px-1.5 py-0 md:text-xs md:px-2.5 md:py-0.5 border-primary text-primary bg-primary/5">{c}</Badge>
+                  <Badge key={i} variant="outline" className="text-xs px-2 py-0.5 sm:text-sm sm:px-3 sm:py-1 border-primary text-primary bg-primary/5">{c}</Badge>
                 ))}
               </div>
             </div>
