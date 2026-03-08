@@ -215,3 +215,9 @@ export const sortServicesByCategory = (services) => {
     return a.categoria_id - b.categoria_id
   })
 }
+
+export const formatTime = (timeString) => {
+  if (!timeString) return ''
+  const [hours, minutes] = timeString.split(':')
+  return `${hours}:${minutes}`
+}
