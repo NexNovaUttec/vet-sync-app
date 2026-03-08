@@ -53,7 +53,7 @@ export function ProfessionalCard({ professional }) {
     <Card className="overflow-hidden hover:shadow-md transition-shadow duration-200">
       <CardHeader className="flex flex-row items-center gap-4 pb-2 border-b bg-muted/20">
         <Avatar className="h-14 w-14 border-2 border-background shadow-sm shrink-0">
-          <AvatarImage src={`https://api.dicebear.com/9.x/shapes/svg?seed=${professional.id}`} />
+          <AvatarImage src={`https://api.dicebear.com/9.x/glass/svg?seed=${professional.id}`} />
           <AvatarFallback className="text-lg bg-primary/10 text-primary">{initials}</AvatarFallback>
         </Avatar>
         <div className="flex-1 min-w-0">
@@ -102,7 +102,7 @@ export function ProfessionalCard({ professional }) {
               <Stethoscope className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
               <div className="flex flex-wrap gap-1">
                 {categories.map((c, i) => (
-                  <Badge key={i} variant="outline" className="text-[10px] px-1.5 py-0 md:text-xs md:px-2.5 md:py-0.5 border-primary text-primary bg-primary/5">{c}</Badge>
+                  <Badge key={i} variant="outline" className="text-xs px-2 py-0.5 sm:text-sm sm:px-3 sm:py-1 border-primary text-primary bg-primary/5">{c}</Badge>
                 ))}
               </div>
             </div>

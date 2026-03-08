@@ -201,7 +201,7 @@ export function ProfessionalForm() {
             <h3 className="text-sm font-semibold text-foreground border-l-2 border-primary pl-2 uppercase tracking-wider">
               Datos Personales
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="nombre">Nombre <span className="text-destructive">*</span></Label>
                 <Input id="nombre" {...register('nombre')} placeholder="Ej. Ana" />
@@ -215,7 +215,7 @@ export function ProfessionalForm() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Correo Electrónico <span className="text-destructive">*</span></Label>
                 <Input id="email" type="email" {...register('email')} placeholder="ejemplo@clinica.com" />
@@ -313,7 +313,7 @@ export function ProfessionalForm() {
                           />
                           <Label
                             htmlFor={`day-${index}-${day.id}`}
-                            className="flex items-center justify-center rounded-md border-2 border-muted bg-popover px-3 py-2 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 peer-data-[state=checked]:text-primary cursor-pointer transition-all w-12 text-sm"
+                            className="flex items-center justify-center rounded-full border-2 border-muted bg-popover hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 peer-data-[state=checked]:text-primary cursor-pointer transition-all h-10 w-10 sm:h-11 sm:w-11 text-xs sm:text-sm"
                           >
                             {day.label.substring(0, 2)}
                           </Label>
@@ -326,8 +326,8 @@ export function ProfessionalForm() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                  <div className="space-y-2">
+                <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                  <div className="space-y-2 flex-1">
                     <Label htmlFor={`hora_inicio_${index}`}>Hora de Entrada <span className="text-destructive">*</span></Label>
                     <Input id={`hora_inicio_${index}`} type="time" {...register(`schedules.${index}.hora_inicio`)} />
                     {errors.schedules?.[index]?.hora_inicio && (
@@ -335,7 +335,7 @@ export function ProfessionalForm() {
                     )}
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-2 flex-1">
                     <Label htmlFor={`hora_fin_${index}`}>Hora de Salida <span className="text-destructive">*</span></Label>
                     <Input id={`hora_fin_${index}`} type="time" {...register(`schedules.${index}.hora_fin`)} />
                     {errors.schedules?.[index]?.hora_fin && (
