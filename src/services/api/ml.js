@@ -32,3 +32,19 @@ export const getRevenueForecast = async () => {
     throw new Error('No se pudo obtener el pronóstico de ingresos.')
   }
 }
+
+/**
+ * Obtener la proyección de demanda de servicios (Machine Learning)
+ * @returns {Promise<Object>} Datos del pronóstico por categorías
+ */
+export const getDemandForecast = async () => {
+  try {
+    const response = await api.get('/ml/demand-forecast', { requiresAuth: true })
+    return response.data
+  } catch (error) {
+    if (error.response?.data?.message) {
+      throw new Error(error.response.data.message)
+    }
+    throw new Error('No se pudo obtener el pronóstico de demanda.')
+  }
+}
