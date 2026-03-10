@@ -1,11 +1,28 @@
 import { useState, useRef, useEffect } from 'react'
 import { MessageCircle, X, Send, Bot, User, Loader2 } from 'lucide-react'
 import { sendChatMessage } from '@/services/api/chat'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import ReactMarkdown from 'react-markdown'
 
 const WELCOME_MESSAGE = {
   role: 'assistant',
   content:
     '¡Hola! Soy el asistente virtual de VetSync 🐾 ¿En qué puedo ayudarte hoy? Puedo orientarte sobre el cuidado de tu mascota o sobre el uso de la plataforma.'
+}
+
+// Componentes de Markdown con estilos Tailwind ajustados al bubble del chat
+const markdownComponents = {
+  p: ({ children }) => <p className="mb-1 last:mb-0">{children}</p>,
+  strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+  ul: ({ children }) => <ul className="list-none mt-1 mb-1 space-y-0.5">{children}</ul>,
+  ol: ({ children }) => <ol className="list-decimal list-inside mt-1 mb-1 space-y-0.5">{children}</ol>,
+  li: ({ children }) => <li className="leading-snug">{children}</li>,
+  hr: () => <hr className="my-2 border-current opacity-20" />,
+  h1: ({ children }) => <p className="font-bold text-base mb-1">{children}</p>,
+  h2: ({ children }) => <p className="font-bold mb-1">{children}</p>,
+  h3: ({ children }) => <p className="font-semibold mb-0.5">{children}</p>,
+  // Evitar que links sean clickeables (seguridad — el bot no debería generar links externos)
+  a: ({ children }) => <span className="underline opacity-80">{children}</span>
 }
 
 function ChatMessage({ message }) {
@@ -18,11 +35,14 @@ function ChatMessage({ message }) {
         {isUser ? <User size={14} /> : <Bot size={14} />}
       </div>
       <div
-        className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm leading-relaxed ${
+        className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm leading-relaxed break-words ${
           isUser ? 'bg-primary text-primary-foreground rounded-tr-sm' : 'bg-muted text-foreground rounded-tl-sm'
         }`}
       >
-        {message.content}
+        {isUser
+          ? message.content
+          : <ReactMarkdown components={markdownComponents}>{message.content}</ReactMarkdown>
+        }
       </div>
     </div>
   )
@@ -71,19 +91,16 @@ export function ChatBot() {
       let errorMsg
 
       if (!error.response) {
-        // Error de red: no se pudo conectar al servidor
-        errorMsg = 'No se pudo conectar con el servidor. Verifica que el backend esté activo.'
+        errorMsg = 'En este momento no puedo responder tu pregunta. Por favor intenta de nuevo en unos minutos. 🐾'
       } else if (error.response.status === 429) {
-        errorMsg = 'Demasiadas solicitudes, espera un momento e intenta de nuevo.'
+        errorMsg = 'Estoy recibiendo muchas consultas en este momento, intenta de nuevo en unos segundos. 😊'
       } else if (error.response.status === 400) {
-        errorMsg = error.response.data?.error || 'Mensaje inválido.'
-      } else if (error.response.status === 503) {
-        errorMsg = 'El servicio de chat no está disponible en este momento.'
+        errorMsg = 'No entendí bien tu mensaje. ¿Podrías reformularlo?'
       } else {
-        errorMsg = error.response.data?.error || 'Ocurrió un error inesperado, intenta de nuevo.'
+        errorMsg = 'Algo salió mal de nuestro lado. Por favor intenta de nuevo en un momento. 🐾'
       }
 
-      setMessages((prev) => [...prev, { role: 'assistant', content: `⚠️ ${errorMsg}` }])
+      setMessages((prev) => [...prev, { role: 'assistant', content: errorMsg }])
     } finally {
       setIsLoading(false)
     }
@@ -119,23 +136,25 @@ export function ChatBot() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 h-80 bg-background/95">
-            {messages.map((msg, i) => (
-              <ChatMessage key={i} message={msg} />
-            ))}
-            {isLoading && (
-              <div className="flex gap-2 flex-row">
-                <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-muted text-muted-foreground">
-                  <Bot size={14} />
+          <ScrollArea className="h-80 sm:h-96 bg-background/95">
+            <div className="p-4 space-y-3">
+              {messages.map((msg, i) => (
+                <ChatMessage key={i} message={msg} />
+              ))}
+              {isLoading && (
+                <div className="flex gap-2 flex-row">
+                  <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-muted text-muted-foreground">
+                    <Bot size={14} />
+                  </div>
+                  <div className="bg-muted text-foreground rounded-2xl rounded-tl-sm px-3 py-2 flex items-center gap-1">
+                    <Loader2 size={14} className="animate-spin" />
+                    <span className="text-sm text-muted-foreground">Escribiendo...</span>
+                  </div>
                 </div>
-                <div className="bg-muted text-foreground rounded-2xl rounded-tl-sm px-3 py-2 flex items-center gap-1">
-                  <Loader2 size={14} className="animate-spin" />
-                  <span className="text-sm text-muted-foreground">Escribiendo...</span>
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+          </ScrollArea>
 
           {/* Input */}
           <form onSubmit={handleSubmit} className="flex items-center gap-2 p-3 border-t border-border bg-background">
