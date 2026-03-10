@@ -22,7 +22,7 @@ const markdownComponents = {
   h2: ({ children }) => <p className="font-bold mb-1">{children}</p>,
   h3: ({ children }) => <p className="font-semibold mb-0.5">{children}</p>,
   // Evitar que links sean clickeables (seguridad — el bot no debería generar links externos)
-  a: ({ children }) => <span className="underline opacity-80">{children}</span>,
+  a: ({ children }) => <span className="underline opacity-80">{children}</span>
 }
 
 function ChatMessage({ message }) {
