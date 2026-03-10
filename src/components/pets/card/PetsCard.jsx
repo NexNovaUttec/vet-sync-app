@@ -1,8 +1,10 @@
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { PetImage } from './PetImage'
-import { Calendar1, Mars, Venus, UserRound } from 'lucide-react'
+import { Calendar1, Mars, Venus, UserRound, CreditCard } from 'lucide-react'
 import { ActionMenu } from './ActionMenu'
+import { PetCarnetDialog } from '../PetCarnetDialog'
 
 export function PetsCard({ pet, deletePet }) {
   return (
@@ -73,6 +75,16 @@ export function PetsCard({ pet, deletePet }) {
                 year: 'numeric'
               })}
             </Badge>
+          </div>
+
+          {/* Botón para generar carnet */}
+          <div className="mt-2">
+            <PetCarnetDialog pet={pet}>
+              <Button variant="default" className="w-full" size="sm">
+                <CreditCard className="w-4 h-4" />
+                Ver Carnet
+              </Button>
+            </PetCarnetDialog>
           </div>
         </article>
       </CardContent>
