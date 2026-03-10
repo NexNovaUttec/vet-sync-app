@@ -1,5 +1,6 @@
 import { Brain, TrendingUp, Users } from 'lucide-react'
 import { HighRiskAppointments } from '@/components/admin/intelligence/HighRiskAppointments'
+import { RevenueForecastWidget } from '@/components/admin/intelligence/RevenueForecastWidget'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
 export function AdminIntelligence() {
@@ -70,17 +71,8 @@ export function AdminIntelligence() {
           <HighRiskAppointments />
         </div>
 
-        {/* Additional space for AI insight summaries or charts */}
         <div className="col-span-1 lg:col-span-2">
-          <Card className="h-full flex flex-col justify-center items-center text-center p-8 bg-muted/10 border-dashed">
-            <div className="rounded-full bg-primary/10 p-4 mb-4">
-              <Brain className="w-8 h-8 text-primary" />
-            </div>
-            <h3 className="font-semibold text-lg mb-2 text-foreground">Más modelos de IA en camino</h3>
-            <p className="text-muted-foreground max-w-sm">
-              El asistente virtual con capacidades generativas y los pronósticos de servicios se incluirán en este panel en versiones futuras.
-            </p>
-          </Card>
+          <RevenueForecastWidget />
         </div>
       </div>
     </div>
