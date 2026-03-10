@@ -16,6 +16,7 @@ import { AdminOverview } from '@/views/admin/AdminOverview.jsx'
 import { AdminServices } from '@/views/admin/AdminServices.jsx'
 import { AdminAppointments } from '@/views/admin/AdminAppointments.jsx'
 import { AdminProfessionals } from '@/views/admin/AdminProfessionals.jsx'
+import { AdminIntelligence } from '@/views/admin/AdminIntelligence.jsx'
 import { UserRoute } from '@/components/auth/UserRoute.jsx'
 import { ChatBot } from '@/components/ChatBot'
 
@@ -57,6 +58,7 @@ function AppContent() {
           {/* Rutas de Administración */}
           <Route element={<AdminDashboard />}>
             <Route path="/admin" element={<AdminOverview />} />
+            <Route path="/admin/intelligence" element={<AdminIntelligence />} />
             <Route path="/admin/services" element={<AdminServices />} />
             <Route path="/admin/appointments" element={<AdminAppointments />} />
             <Route path="/admin/professionals" element={<AdminProfessionals />} />
