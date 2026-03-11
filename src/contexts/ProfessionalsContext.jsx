@@ -120,7 +120,9 @@ export function ProfessionalsProvider({ children }) {
         console.error('Error adding professional:', error)
         setError(error)
         const { toast } = await import('sonner')
-        toast.error('No se pudo registrar al profesional. Por favor, inténtalo de nuevo.')
+
+        const errorMessage = error.response?.data?.message || 'No se pudo registrar al profesional. Por favor, inténtalo de nuevo.'
+        toast.error(errorMessage)
         throw error
       } finally {
         setLoading(false)
@@ -167,19 +169,31 @@ export function ProfessionalsProvider({ children }) {
             )
           })
 
-          // Update existing schedules
+          // Update existing schedules only if they changed
           schedulesToUpdate.forEach((schedule) => {
-            updateOperations.push(
-              updateScheduleApi(schedule.id, {
-                profesional_id: professionalId,
-                dias_trabajo: schedule.dias_trabajo,
-                hora_inicio: schedule.hora_inicio,
-                hora_fin: schedule.hora_fin
-              })
-            )
+            const currentSchedule = currentSchedules.find(s => s.id === schedule.id)
+
+            // Check if any relevant field actually changed
+            const hasChanged = !currentSchedule ||
+                               currentSchedule.dias_trabajo !== schedule.dias_trabajo ||
+                               currentSchedule.hora_inicio !== schedule.hora_inicio ||
+                               currentSchedule.hora_fin !== schedule.hora_fin
+
+            if (hasChanged) {
+              updateOperations.push(
+                updateScheduleApi(schedule.id, {
+                  profesional_id: professionalId,
+                  dias_trabajo: schedule.dias_trabajo,
+                  hora_inicio: schedule.hora_inicio,
+                  hora_fin: schedule.hora_fin
+                })
+              )
+            }
           })
 
-          await Promise.all(updateOperations)
+          if (updateOperations.length > 0) {
+            await Promise.all(updateOperations)
+          }
         }
 
         // 3. Update categories
@@ -194,7 +208,9 @@ export function ProfessionalsProvider({ children }) {
         console.error('Error updating professional:', error)
         setError(error)
         const { toast } = await import('sonner')
-        toast.error('No se pudo actualizar al profesional. Por favor, inténtalo de nuevo.')
+
+        const errorMessage = error.response?.data?.message || 'No se pudo actualizar al profesional. Por favor, inténtalo de nuevo.'
+        toast.error(errorMessage)
         throw error
       } finally {
         setLoading(false)
